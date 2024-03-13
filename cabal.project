@@ -1,0 +1,18 @@
+packages: .
+
+-- #source-repository-package
+-- #  type: git
+-- #  location: https://github.com/tweag/ormolu.git
+-- #  tag: 607978708809d97945c6036a60b8ffb9b719bc60
+-- #  --sha256: BCu7IdKNhxq0Jf9iEW9LaV4qC3Ir1gxP91b0EBom4CQ=
+
+
+index-state: 2023-10-15T12:29:38Z
+
+package ormolu
+  -- The WASM backend does not support TH.
+  flags: -internal-bundle-fixities
+
+package ghc-lib-parser
+  -- The WASM backend does not support the threaded RTS.
+  flags: -threaded-rts
