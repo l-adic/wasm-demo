@@ -66,9 +66,10 @@ data Output = Output
   deriving anyclass (A.ToJSON)
 
 format :: Input -> IO Output
-format input = pure $ 
-  Output 
-    { fmtStr = T.toUpper (inputStr input)
-    , inputAST = ""
-    , outputAST = ""
-    }
+format input =
+  pure $
+    Output
+      { fmtStr = T.toUpper (inputStr input),
+        inputAST = "",
+        outputAST = ""
+      }
