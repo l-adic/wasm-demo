@@ -14,11 +14,8 @@ executable ormolu-live
         "-optl-Wl,--export=malloc,--export=mallocPtr,--export=free,--export=formatRaw"
 
     build-depends:
+        aeson,
         base,
         bytestring,
-        text,
         containers,
-        aeson,
-        ghc-lib-parser,
-        Cabal-syntax,
-        deepseq
+        text,

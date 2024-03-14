@@ -4,7 +4,6 @@ dist/
 site/
 .parcel-cache/
 src/ormolu.wasm
-package-lock.json
 dist-newstyle
 .direnv
 .psc-ide-port

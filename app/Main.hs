@@ -8,7 +8,6 @@
 
 module Main where
 
-import Control.DeepSeq (force)
 import Control.Exception qualified as E
 import Data.Aeson qualified as A
 import Data.ByteString.Lazy qualified as BL
@@ -19,12 +18,9 @@ import Data.Set (Set)
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as T
-import Distribution.Types.PackageName (PackageName)
 import Foreign hiding (void)
 import Foreign.C.Types
-import GHC.Driver.Ppr (showSDocUnsafe)
 import GHC.Generics (Generic)
-import GHC.Hs.Dump qualified as Dump
 
 main :: IO ()
 main = mempty
@@ -70,4 +66,9 @@ data Output = Output
   deriving anyclass (A.ToJSON)
 
 format :: Input -> IO Output
-format _ = pure (Output {fmtStr = "aaaa", inputAST = "", outputAST = ""})
+format input = pure $ 
+  Output 
+    { fmtStr = T.toUpper (inputStr input)
+    , inputAST = ""
+    , outputAST = ""
+    }
