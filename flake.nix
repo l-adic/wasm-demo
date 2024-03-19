@@ -47,7 +47,7 @@
         );
         defaultGHC = perGHC.${defaultGHCVersion};
 
-        ormoluLive = import ./default.nix {
+        ormoluLive = import wasm/default.nix {
           inherit pkgs inputs defaultGHC;
         };
       in
