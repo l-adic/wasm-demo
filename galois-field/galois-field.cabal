@@ -51,6 +51,7 @@ library
     RecordWildCards
     ScopedTypeVariables
     TypeFamilies
+    TypeOperators
 
   ghc-options:        -freverse-errors -O2 -Wall
   build-depends:
