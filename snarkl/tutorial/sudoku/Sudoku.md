@@ -60,7 +60,7 @@ type SudokuSet = Vector Nat9 'TField
 mkSudokuSet :: (GaloisField k) => Comp SudokuSet k
 mkSudokuSet = do
   ss <- Vec.vec
-  forall (universe @Nat9) $ \i ->
+  forAll (universe @Nat9) $ \i ->
     Vec.set (ss, i) (fromField $ 1 P.+ fromIntegral i)
   return ss
 
@@ -111,7 +111,7 @@ isPermutation ss as = do
             reify (fromIntegral $ length js) $ \(_ :: Proxy m) ->  do 
               -- 'iChecks ! j' := 'as ! i == as ! j' `
               iChecks <- Vec.vec @m
-              forall js $ \j -> do
+              forAll js $ \j -> do
                 aj <- Vec.get (as, j)
                 Vec.set (iChecks, fromIntegral j) (eq ai aj)
               existsDuplicate <- Vec.any iChecks

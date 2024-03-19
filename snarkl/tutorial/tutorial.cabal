@@ -23,7 +23,7 @@ executable sudoku-solver
   -- other-extensions:
   build-depends:
     , array
-    , base          ^>=4.15.1.0
+    , base
     , containers
     , galois-field
     , snarkl
@@ -35,7 +35,7 @@ executable sudoku-solver
 executable sudoku
   import:           warnings
   build-depends:
-    , base          ^>=4.15.1.0
+    , base
     , containers
     , fin
     , galois-field
@@ -52,7 +52,7 @@ executable sudoku
 executable composite-test
   import:           warnings
   build-depends:
-    , base            ^>=4.15.1.0
+    , base
     , containers
     , galois-field
     , snarkl

@@ -41,7 +41,10 @@ defaultMain ::
 defaultMain inputsFP assignmentsFP publicInputs = do
   putStrLn $ "Reading inputs from " <> inputsFP
   eInputs <- fromJSONLines <$> readFileLines inputsFP
-  let (_, privateInputs, [out]) = either error splitInputVars eInputs
+  let (privateInputs, out) = case either error splitInputVars eInputs of 
+        (_, pis,[a]) -> (pis, a)
+        (_,_,_) -> error "expected exactly one output variable"
+      
   putStrLn "Solving puzzle..."
   m <- solvePuzzle publicInputs
   let assignments = mkAssignments @F_BN128 publicInputs privateInputs m out
