@@ -8,4 +8,4 @@ source-repository-package
 tests: True
 
 packages:
-  snarkl/snarkl.cabal
+  ./snarkl/snarkl.cabal
