@@ -1,0 +1,36 @@
+name: lint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ormolu:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'ormulu'
+        uses: haskell-actions/run-ormolu@v14
+        with:
+          mode: check
+          pattern: |
+            src/**/*.hs
+            examples/**/*.hs
+            tests/**/*.hs
+            benchmarks/**/*.hs
+            app/**/*.hs
+          version: 0.5.2.0
+
+      - name: 'Set up HLint'
+        uses: rwe/actions-hlint-setup@v1
+        with:
+          version: '3.6.1'
+
+      - name: 'Run HLint'
+        uses: rwe/actions-hlint-run@v2
+        with:
+          path: src
+          fail-on: warning

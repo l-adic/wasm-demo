@@ -31,7 +31,7 @@
         inherit (pkgs) lib haskell-nix;
         inherit (haskell-nix) haskellLib;
 
-        ghcVersions = [ "ghc963" "ghc947" "ghc981" ];
+        ghcVersions = [ "ghc964" ];
         defaultGHCVersion = builtins.head ghcVersions;
         perGHC = lib.genAttrs ghcVersions (ghcVersion:
           let
@@ -47,7 +47,7 @@
         );
         defaultGHC = perGHC.${defaultGHCVersion};
 
-        ormoluLive = import ./default.nix {
+        ormoluLive = import wasm/default.nix {
           inherit pkgs inputs defaultGHC;
         };
       in
@@ -56,11 +56,16 @@
           default = defaultGHC.dev.hsPkgs.shellFor {
             tools = {
               cabal = "latest";
-              haskell-language-server = {
-                src = inputs.haskellNix.inputs."hls-2.4";
-                configureArgs = "--disable-benchmarks --disable-tests";
-              };
+              haskell-language-server = "2.7.0.0";
             };
+            buildInputs = with pkgs; [
+              haskellPackages.ormolu_0_5_2_0
+              haskellPackages.cabal-fmt
+              haskellPackages.graphmod
+              haskellPackages.hlint
+              haskellPackages.markdown-unlit
+            ];
+
             withHoogle = false;
             exactDeps = false;
           };

@@ -1,0 +1,11 @@
+packages: .
+
+index-state: 2023-10-15T12:29:38Z
+
+package ormolu
+  -- The WASM backend does not support TH.
+  flags: -internal-bundle-fixities
+
+package ghc-lib-parser
+  -- The WASM backend does not support the threaded RTS.
+  flags: -threaded-rts

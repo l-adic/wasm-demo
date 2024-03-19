@@ -18,9 +18,11 @@ import Data.Set (Set)
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as T
+import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import Foreign hiding (void)
 import Foreign.C.Types
 import GHC.Generics (Generic)
+import Text.Read (readMaybe)
 
 main :: IO ()
 main = mempty
@@ -36,10 +38,11 @@ foreign export ccall formatRaw :: Ptr CChar -> Int -> Ptr (Ptr CChar) -> IO Int
 
 formatRaw :: Ptr CChar -> Int -> Ptr (Ptr CChar) -> IO Int
 formatRaw inputPtr inputLen outputPtrPtr = do
-  Just input <-
-    A.decodeStrict' <$> BU.unsafePackMallocCStringLen (inputPtr, inputLen)
-  outputBytes <- BL.toStrict . A.encode <$> format input
+  input <-
+    decodeUtf8 <$> BU.unsafePackMallocCStringLen (inputPtr, inputLen)
+  let outputBytes = encodeUtf8 $ format input
   BU.unsafeUseAsCStringLen outputBytes \(buf, len) -> do
+    putStrLn "Holy shit I'm printing this from inside a haskell program compiled to wasm"
     outputPtr <- mallocBytes len
     poke outputPtrPtr outputPtr
     copyBytes outputPtr buf len
@@ -47,29 +50,34 @@ formatRaw inputPtr inputLen outputPtrPtr = do
 
 -- actual logic
 
-data Input = Input
-  { inputStr :: Text,
-    checkIdempotence :: Bool,
-    unsafeMode :: Bool,
-    formatBackpack :: Bool,
-    showAST :: Bool
-  }
-  deriving stock (Show, Generic)
-  deriving anyclass (A.FromJSON)
+-- data Input = Input
+--  { inputStr :: Text,
+--    checkIdempotence :: Bool,
+--    unsafeMode :: Bool,
+--    formatBackpack :: Bool,
+--    showAST :: Bool
+--  }
+--  deriving stock (Show, Generic)
+--  deriving anyclass (A.FromJSON)
+--
+-- data Output = Output
+--  { fmtStr :: Text,
+--    inputAST :: Text,
+--    outputAST :: Text
+--  }
+--  deriving stock (Show, Generic)
+--  deriving anyclass (A.ToJSON)
 
-data Output = Output
-  { fmtStr :: Text,
-    inputAST :: Text,
-    outputAST :: Text
-  }
-  deriving stock (Show, Generic)
-  deriving anyclass (A.ToJSON)
+format :: Text -> Text
+format = T.toUpper
 
-format :: Input -> IO Output
-format input =
-  pure $
-    Output
-      { fmtStr = T.toUpper (inputStr input),
-        inputAST = "",
-        outputAST = ""
-      }
+-- let n :: [Integer]
+--    n = case readMaybe $ T.unpack (inputStr input) of
+--      Nothing -> []
+--      Just s -> s
+--  pure $
+--    Output
+--      { fmtStr =
+--        inputAST = "",
+--        outputAST = ""
+--      }

@@ -1,11 +1,9 @@
-packages: .
+tests: True
+index-state: hackage.haskell.org 2023-11-03T18:10:06Z
 
-index-state: 2023-10-15T12:29:38Z
+packages:
+  ./snarkl/snarkl.cabal
+  ./snarkl/tutorial/tutorial.cabal
+  ./galois-field/galois-field.cabal
 
-package ormolu
-  -- The WASM backend does not support TH.
-  flags: -internal-bundle-fixities
 
-package ghc-lib-parser
-  -- The WASM backend does not support the threaded RTS.
-  flags: -threaded-rts
