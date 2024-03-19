@@ -10,3 +10,10 @@ tests: True
 packages:
   ./snarkl/snarkl.cabal
   ./galois-field/galois-field.cabal
+
+constraints:
+    semigroupoids >= 6.0.0.1
+  , wl-pprint-text >= 1.2.0.0
+  , lens >= 5.2
+  , transformers >= 0.6.0.0
+  , MonadRandom >= 0.6
