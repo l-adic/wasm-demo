@@ -9,3 +9,4 @@ tests: True
 
 packages:
   ./snarkl/snarkl.cabal
+  ./galois-field/galois-field.cabal
