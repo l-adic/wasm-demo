@@ -9,4 +9,3 @@ tests: True
 
 packages:
   ./snarkl/snarkl.cabal
-  ./snarkl/tutorial/tutorial.cabal
