@@ -109,19 +109,19 @@ prog6 =
 prog7 =
   do
     a <- arr 100
-    forall [0 .. 99] (\i -> set (a, i) (fromField 0))
-    forall [0 .. 99] (\i -> set (a, i) (exp_of_int i))
+    forAll [0 .. 99] (\i -> set (a, i) (fromField 0))
+    forAll [0 .. 99] (\i -> set (a, i) (exp_of_int i))
     x <- get (a, 49)
     y <- get (a, 51)
     return $ x + y
 
--- | 8. 'forall2' test
+-- | 8. 'forAll2' test
 prog8 =
   do
     a <- arr 25
-    forall [0 .. 24] (\i -> set (a, i) (fromField 0))
+    forAll [0 .. 24] (\i -> set (a, i) (fromField 0))
     let index i j = (P.+) ((P.*) 5 i) j
-    forall2
+    forAll2
       ([0 .. 4], [0 .. 4])
       ( \i j ->
           set (a, index i j) (exp_of_int $ index i j)
@@ -180,7 +180,7 @@ prog15 =
 bool_prog16 =
   do
     a <- input_arr 100
-    forall
+    forAll
       [0 .. 99]
       ( \i ->
           do

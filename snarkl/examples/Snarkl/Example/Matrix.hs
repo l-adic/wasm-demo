@@ -68,10 +68,10 @@ input_matrix_mult n m p = do
   b <- input_matrix m p
   c <- new_matrix n p
 
-  forall
+  forAll
     [0 .. dec n]
     ( \i -> do
-        forall
+        forAll
           [0 .. dec p]
           ( \j -> do
               res <-
@@ -94,7 +94,7 @@ matrix_colvec_mult fm n = do
   v' <- new_colvec n
 
   -- multiply
-  forall
+  forAll
     [0 .. dec n]
     ( \i -> do
         res <-

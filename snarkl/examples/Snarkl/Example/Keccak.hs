@@ -45,13 +45,13 @@ round1 rc a =
     c <- arr2 5 ln_width
     d <- arr2 5 ln_width
     -- Initialize arrays.
-    forall3
+    forAll3
       ([0 .. 4], [0 .. 4], [0 .. dec ln_width])
       (\i j k -> set3 (b, i, j, k) false)
-    forall2 ([0 .. 4], [0 .. dec ln_width]) (\i j -> set2 (c, i, j) false)
-    forall2 ([0 .. 4], [0 .. dec ln_width]) (\i j -> set2 (d, i, j) false)
+    forAll2 ([0 .. 4], [0 .. dec ln_width]) (\i j -> set2 (c, i, j) false)
+    forAll2 ([0 .. 4], [0 .. dec ln_width]) (\i j -> set2 (d, i, j) false)
     -- \theta step
-    forall2
+    forAll2
       ([0 .. 4], [0 .. dec ln_width])
       ( \x i ->
           do
@@ -62,7 +62,7 @@ round1 rc a =
             z <- get3 (a, x, 4, i)
             set2 (c, x, i) $ q `xor` u `xor` v `xor` w `xor` z
       )
-    forall2
+    forAll2
       ([0 .. 4], [0 .. dec ln_width])
       ( \x i ->
           do
@@ -70,7 +70,7 @@ round1 rc a =
             u <- get2 (c, inc x `mod` 5, rot_index i 1)
             set2 (d, x, i) $ q `xor` u
       )
-    forall3
+    forAll3
       ([0 .. 4], [0 .. 4], [0 .. dec ln_width])
       ( \x y i ->
           do
@@ -79,7 +79,7 @@ round1 rc a =
             set3 (a, x, y, i) $ q `xor` u
       )
     -- \rho and \pi steps
-    forall3
+    forAll3
       ([0 .. 4], [0 .. 4], [0 .. dec ln_width])
       ( \x y i ->
           do
@@ -87,7 +87,7 @@ round1 rc a =
             set3 (b, y, (P.+) ((P.*) 2 x) ((P.*) 3 y) `mod` 5, i) q
       )
     -- \chi step
-    forall3
+    forAll3
       ([0 .. 4], [0 .. 4], [0 .. dec ln_width])
       ( \x y i ->
           do
@@ -97,7 +97,7 @@ round1 rc a =
             set3 (a, x, y, i) $ q `xor` (not u && v)
       )
     -- \iota step
-    forall
+    forAll
       [0 .. dec ln_width]
       ( \i ->
           do
@@ -188,7 +188,7 @@ get_round_bit round_i bit_i =
         True -> true
 
 keccak_f1 num_rounds a =
-  forall
+  forAll
     [0 .. dec num_rounds]
     ( \round_i ->
         round1 (get_round_bit round_i) a
@@ -202,7 +202,7 @@ keccak1 num_rounds =
     keccak_f1 num_rounds a
     b <- arr 1
     set (b, 0) false
-    forall3
+    forAll3
       ([0 .. 4], [0 .. 4], [0 .. dec ln_width])
       ( \i j k -> do
           a_val <- get3 (a, i, j, k)

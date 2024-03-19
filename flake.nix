@@ -58,6 +58,15 @@
               cabal = "latest";
               haskell-language-server = "2.7.0.0";
             };
+            buildInputs = with pkgs; [
+              haskellPackages.ormolu_0_5_2_0
+              haskellPackages.cabal-fmt
+              haskellPackages.hspec-discover
+              haskellPackages.graphmod
+              haskellPackages.hlint
+              haskellPackages.markdown-unlit
+            ];
+
             withHoogle = false;
             exactDeps = false;
           };

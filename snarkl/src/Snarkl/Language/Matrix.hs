@@ -28,7 +28,7 @@ import Snarkl.Language.Prelude
     apply,
     arr2,
     false,
-    forall2,
+    forAll2,
     lambda,
     return,
     true,
@@ -96,7 +96,7 @@ map ::
   Comp (Matrix n m b) k
 map f a = do
   b <- matrix
-  _ <- forall2 (universe @n, universe @m) $ \i j -> do
+  _ <- forAll2 (universe @n, universe @m) $ \i j -> do
     ai <- get (a, i, j)
     bi <- apply f ai
     set (b, i, j) bi
@@ -134,7 +134,7 @@ traverse ::
   Comp (Matrix n m b) k
 traverse f as = do
   bs <- matrix
-  _ <- forall2 (universe @n, universe @m) $ \i j -> do
+  _ <- forAll2 (universe @n, universe @m) $ \i j -> do
     ai <- get (as, i, j)
     bi <- f ai
     set (bs, i, j) bi
@@ -151,7 +151,7 @@ traverseWithIndex ::
   Comp (Matrix n m b) k
 traverseWithIndex f as = do
   bs <- matrix
-  _ <- forall2 (universe @n, universe @m) $ \i j -> do
+  _ <- forAll2 (universe @n, universe @m) $ \i j -> do
     ai <- get (as, i, j)
     bi <- f i j ai
     set (bs, i, j) bi
@@ -171,7 +171,7 @@ transpose asV = do
       is = fromIntegral <$> universe @n
       js = fromIntegral <$> universe @n
   bs <- arr2 @ty m n
-  _ <- forall2 (is, js) $ \i j -> do
+  _ <- forAll2 (is, js) $ \i j -> do
     ai <- Snarkl.get2 (as, i, j)
     Snarkl.set2 (bs, j, i) ai
   return $ unsafe_cast bs

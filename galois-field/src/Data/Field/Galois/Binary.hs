@@ -67,7 +67,7 @@ instance KnownNat p => Group (Binary p) where
   pow x n
     | n >= 0    = x ^ n
     | otherwise = recip x ^ P.negate n
-  {-# INLINE pow #-}
+--{-# INLINE pow #-}
 
 -- Binary fields are multiplicative monoids.
 instance KnownNat p => Monoid (Binary p) where

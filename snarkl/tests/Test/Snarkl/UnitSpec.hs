@@ -64,10 +64,10 @@ spec = do
     describe "times" $ do
       it "6-1" $ test_comp @F_BN128 [Simplify] prog6 [8] `shouldReturn` Right 8
 
-    describe "forall" $ do
+    describe "forAll" $ do
       it "7-1" $ test_comp @F_BN128 [Simplify] prog7 [] `shouldReturn` Right 100
 
-    describe "forall2" $ do
+    describe "forAll2" $ do
       it "8-1" $ test_comp @F_BN128 [Simplify] prog8 [] `shouldReturn` Right 29
 
     describe "unused inputs" $ do
@@ -139,10 +139,10 @@ spec = do
     describe "times" $ do
       it "6-1" $ test_comp @F_BN128 [Simplify] prog6 [8] `shouldReturn` Right 8
 
-    describe "forall" $ do
+    describe "forAll" $ do
       it "7-1" $ test_comp @F_BN128 [Simplify] prog7 [] `shouldReturn` Right 100
 
-    describe "forall2" $ do
+    describe "forAll2" $ do
       it "8-1" $ test_comp @F_BN128 [Simplify] prog8 [] `shouldReturn` Right 29
 
     describe "unused inputs" $ do

@@ -56,9 +56,9 @@ module Snarkl.Language.Prelude
     iterM,
     bigsum,
     times,
-    forall,
-    forall2,
-    forall3,
+    forAll,
+    forAll2,
+    forAll3,
     lambda,
     curry,
     uncurry,
@@ -163,7 +163,7 @@ arr2 len width =
   do
     a <- arr len
     _ <-
-      forall
+      forAll
         [0 .. dec len]
         ( \i ->
             do
@@ -183,7 +183,7 @@ arr3 len width height =
   do
     a <- arr2 len width
     _ <-
-      forall2
+      forAll2
         ([0 .. dec len], [0 .. dec width])
         ( \i j ->
             do
@@ -202,7 +202,7 @@ input_arr2 len width =
   do
     a <- arr len
     _ <-
-      forall
+      forAll
         [0 .. dec len]
         ( \i ->
             do
@@ -221,7 +221,7 @@ input_arr3 len width height =
   do
     a <- arr2 len width
     _ <-
-      forall2
+      forAll2
         ([0 .. dec len], [0 .. dec width])
         ( \i j ->
             do
@@ -755,29 +755,29 @@ bigsum ::
   TExp 'TField k
 bigsum n f = iter n (\n' e -> f n' + e) (fromField 0)
 
-forall ::
+forAll ::
   [a] ->
   (a -> Comp 'TUnit k) ->
   Comp 'TUnit k
-forall as mf = g as mf
+forAll as mf = g as mf
   where
     g [] _ = return unit
     g (a : as') mf' =
       do _ <- mf' a; g as' mf'
 
-forall2 :: ([a], [b]) -> (a -> b -> Comp 'TUnit k) -> Comp 'TUnit k
-forall2 (as1, as2) mf =
-  forall as1 (forall as2 . mf)
+forAll2 :: ([a], [b]) -> (a -> b -> Comp 'TUnit k) -> Comp 'TUnit k
+forAll2 (as1, as2) mf =
+  forAll as1 (forAll as2 . mf)
 
-forall3 :: ([a], [b], [c]) -> (a -> b -> c -> Comp 'TUnit k) -> Comp 'TUnit k
-forall3 (as1, as2, as3) mf =
-  forall2 (as1, as2) (\a1 a2 -> forall as3 (mf a1 a2))
+forAll3 :: ([a], [b], [c]) -> (a -> b -> c -> Comp 'TUnit k) -> Comp 'TUnit k
+forAll3 (as1, as2, as3) mf =
+  forAll2 (as1, as2) (\a1 a2 -> forAll as3 (mf a1 a2))
 
 times ::
   Int ->
   Comp 'TUnit k ->
   Comp 'TUnit k
-times n mf = forall [0 .. dec n] (const mf)
+times n mf = forAll [0 .. dec n] (const mf)
 
 curry ::
   (Typeable a) =>

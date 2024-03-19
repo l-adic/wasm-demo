@@ -6,7 +6,8 @@ module Snarkl.Constraint.Simplify
   )
 where
 
-import Control.Monad.State (State, evalState, gets, when)
+import Control.Monad (when)
+import Control.Monad.State (State, evalState, gets)
 import Data.Field.Galois (GaloisField)
 import Data.List (foldl')
 import qualified Data.Set as Set

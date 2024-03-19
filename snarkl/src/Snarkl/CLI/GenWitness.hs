@@ -80,7 +80,9 @@ genWitness GenWitnessOpts {..} name comp = do
           ]
   --  parse the constraints file
   let (r1cs, constraints, _) = compileCompToR1CS simpl comp
-  let [out_var] = cs_out_vars (unSimplifiedConstraintSystem constraints)
+  let out_var = case cs_out_vars (unSimplifiedConstraintSystem constraints) of
+        [a] -> a
+        _ -> error "exactly one output variable required"
   -- parse the inputs, either from cli or from file
   (pubInputs, privInputs, outputs) <- do
     let assignmentsFP = mkAssignmentsFilePath assignments name

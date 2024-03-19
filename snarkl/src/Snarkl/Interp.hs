@@ -26,14 +26,14 @@ instance Monad (InterpM a) where
           Left err -> Left err
           Right (rho', b) -> runInterpM (mg b) rho'
       )
-  return b =
-    InterpM (\rho -> Right (rho, b))
+  return = pure
+    
 
 instance Functor (InterpM a) where
   fmap f mg = return f `ap` mg
 
 instance Applicative (InterpM a) where
-  pure = return
+  pure b = InterpM (\rho -> Right (rho, b))
   mf <*> ma = ap mf ma
 
 raiseErr :: ErrMsg -> InterpM a b

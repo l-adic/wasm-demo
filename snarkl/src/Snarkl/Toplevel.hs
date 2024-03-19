@@ -146,7 +146,9 @@ execute simpl mf inputs privateInputs =
               (k', var) <- Map.toList privateInputVars,
               k == k'
           ]
-      [out_var] = r1cs_out_vars r1cs
+      out_var = case r1cs_out_vars r1cs of 
+        [a] -> a
+        _ -> error "one output variable required"
       wit@(Witness {witness_assgn = Assgn m}) = wit_of_cs inputs privateAssignments constraintSystem
       out = case Map.lookup out_var m of
         Nothing ->

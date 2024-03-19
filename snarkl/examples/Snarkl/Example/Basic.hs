@@ -33,7 +33,7 @@ mult_ex x y = return $ x * y
 arr_ex :: (GaloisField k) => TExp 'TField k -> Comp 'TField k
 arr_ex x = do
   a <- arr 2
-  forall [0 .. 1] (\i -> set (a, i) x)
+  forAll [0 .. 1] (\i -> set (a, i) x)
   y <- get (a, 0)
   z <- get (a, 1)
   return $ y + z

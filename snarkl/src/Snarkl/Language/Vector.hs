@@ -33,8 +33,8 @@ import Snarkl.Language.Prelude
     arr2,
     dec,
     false,
-    forall,
-    forall2,
+    forAll,
+    forAll2,
     lambda,
     return,
     true,
@@ -94,7 +94,7 @@ map ::
   Comp (Vector n b) k
 map f a = do
   b <- vec
-  _ <- forall (universe @n) $ \i -> do
+  _ <- forAll (universe @n) $ \i -> do
     ai <- get (a, i)
     bi <- apply f ai
     set (b, i) bi
@@ -129,7 +129,7 @@ traverse ::
   Comp (Vector n b) k
 traverse f as = do
   bs <- vec
-  _ <- forall (universe @n) $ \i -> do
+  _ <- forAll (universe @n) $ \i -> do
     ai <- get (as, i)
     bi <- f ai
     set (bs, i) bi
@@ -145,7 +145,7 @@ traverseWithIndex ::
   Comp (Vector n b) k
 traverseWithIndex f as = do
   bs <- vec
-  _ <- forall (universe @n) $ \i -> do
+  _ <- forAll (universe @n) $ \i -> do
     ai <- get (as, i)
     bi <- f i ai
     set (bs, i) bi
@@ -159,7 +159,7 @@ traverse_ ::
   TExp (Vector n a) k ->
   Comp 'TUnit k
 traverse_ f as = do
-  forall (universe @n) $ \i -> do
+  forAll (universe @n) $ \i -> do
     ai <- get (as, i)
     f ai
 
@@ -175,7 +175,7 @@ concat asV = do
       m = reflectToNum (Proxy @m)
       as = unsafe_cast asV
   bs :: TExp ('TArr a) k <- arr (n P.* m)
-  _ <- forall2 ([0 .. dec n], [0 .. dec m]) $ \i j -> do
+  _ <- forAll2 ([0 .. dec n], [0 .. dec m]) $ \i j -> do
     ai <- Snarkl.get2 (as, i, j)
     let idx = (n P.* i) P.+ j
     Snarkl.set (bs, idx) ai
@@ -195,7 +195,7 @@ chunk asV = do
       is = fromIntegral <$> universe @n
       js = fromIntegral <$> universe @n
   bs <- arr2 @ty n m
-  _ <- forall2 (is, js) $ \i j -> do
+  _ <- forAll2 (is, js) $ \i j -> do
     let idx = n P.* i P.+ j
     ai <- Snarkl.get (as, idx)
     Snarkl.set2 (bs, i, j) ai
@@ -215,7 +215,7 @@ transpose asV = do
       is = fromIntegral <$> universe @n
       js = fromIntegral <$> universe @n
   bs <- arr2 @ty m n
-  _ <- forall2 (is, js) $ \i j -> do
+  _ <- forAll2 (is, js) $ \i j -> do
     ai <- Snarkl.get2 (as, i, j)
     Snarkl.set2 (bs, j, i) ai
   return $ unsafe_cast bs

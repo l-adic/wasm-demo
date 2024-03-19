@@ -64,7 +64,9 @@ runAll RunAllOpts {..} name comp = do
           ]
       texpPkg = compileCompToTexp comp
       (r1cs, cs, _) = compileTExpToR1CS simpl texpPkg
-  let [out_var] = r1cs_out_vars r1cs
+  let out_var = case r1cs_out_vars r1cs of 
+        [a] -> a
+        _ -> error "exactly one output variable required"
   -- parse the inputs, either from cli or from file
   (pubInputs, privInputs, outputs) <- do
     let assignmentsFP = mkAssignmentsFilePath assignments name

@@ -83,7 +83,7 @@ instance IrreducibleMonic p k => Group (Extension p k) where
   pow x n
     | n >= 0    = x ^ n
     | otherwise = recip x ^ P.negate n
-  {-# INLINE pow #-}
+--  {-# INLINE pow #-}
 
 -- Extension fields are multiplicative monoids.
 instance IrreducibleMonic p k => Monoid (Extension p k) where

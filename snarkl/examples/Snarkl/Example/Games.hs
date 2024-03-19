@@ -14,6 +14,7 @@ import Snarkl.Errors
 import Snarkl.Field (F_BN128)
 import Snarkl.Language.Prelude
 import Snarkl.Toplevel (comp_interp)
+import Data.Kind (Type)
 import Prelude hiding
   ( fromRational,
     negate,
@@ -37,7 +38,7 @@ data ISO (t :: Ty) (s :: Ty) k = Iso
     from :: TExp s k -> Comp t k
   }
 
-data Game :: Ty -> * -> * where
+data Game :: Ty -> Type -> Type where
   Single ::
     forall (s :: Ty) (t :: Ty) k.
     ( Typeable s,
