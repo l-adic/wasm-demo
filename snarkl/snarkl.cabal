@@ -97,16 +97,16 @@ library
     , base                  >=4.14 && <5
     , bytestring
     , Cabal                 >=1.22
-    , containers            >=0.5   && <0.7
+    , containers            >=0.5
     , directory
     , filepath
     , fin
     , galois-field          >=1.0.4
     , hspec                 >=2.0
     , lens
-    , mtl                   >=2.2   && <2.3
+    , mtl                   >=2.2
     , optparse-applicative
-    , parallel              >=3.2   && <3.3
+    , parallel              >=3.2
     , process               >=1.2
     , string-conversions
     , wl-pprint-text
@@ -148,12 +148,12 @@ test-suite spec
       base          >=4.7
     , bytestring
     , Cabal         >=1.22
-    , containers    >=0.5     && <0.6
+    , containers    >=0.5
     , criterion     >=1.0
     , galois-field  >=1.0.4
     , hspec         >=2.0
-    , mtl           >=2.2     && <2.3
-    , parallel      >=3.2     && <3.3
+    , mtl           >=2.2
+    , parallel      >=3.2
     , process       >=1.2
     , QuickCheck
     , snarkl        >=0.1.0.0
@@ -195,12 +195,12 @@ benchmark criterion
       base          >=4.7
     , bytestring
     , Cabal         >=1.22
-    , containers    >=0.5     && <0.6
+    , containers    >=0.5
     , criterion     >=1.0
     , galois-field  >=1.0.4
     , hspec         >=2.0
-    , mtl           >=2.2     && <2.3
-    , parallel      >=3.2     && <3.3
+    , mtl           >=2.2
+    , parallel      >=3.2
     , process       >=1.2
     , snarkl        >=0.1.0.0
 
