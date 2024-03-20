@@ -8,13 +8,17 @@
     nixpkgs.follows = "haskellNix/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
+
     # for Ormolu Live
     ghc-wasm-meta.url = "gitlab:ghc/ghc-wasm-meta?host=gitlab.haskell.org";
     npmlock2nix = { url = "github:nix-community/npmlock2nix"; flake = false; };
-    ps-tools = {
-      follows = "purs-nix/ps-tools";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+#    ps-tools = {
+#      follows = "purs-nix/ps-tools";
+#      inputs.nixpkgs.follows = "nixpkgs";
+#    };
+
+    easy-purescript-nix.url = "github:justinwoo/easy-purescript-nix";
     purs-nix = {
       url = "github:purs-nix/purs-nix/ps-0.15";
       inputs.nixpkgs.follows = "nixpkgs";

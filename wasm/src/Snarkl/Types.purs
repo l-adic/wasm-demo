@@ -1,2 +1,3 @@
 module Snarkl.Types where
-ss
+
+import Data.Argonaut
