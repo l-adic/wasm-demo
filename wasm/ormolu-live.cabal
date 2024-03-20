@@ -19,3 +19,5 @@ executable ormolu-live
         bytestring,
         containers,
         text,
+        galois-field,
+        snarkl

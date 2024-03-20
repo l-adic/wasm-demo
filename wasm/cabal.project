@@ -1,6 +1,7 @@
-packages: .
-
-index-state: 2023-10-15T12:29:38Z
+packages: 
+  .
+  ../galois-field/galois-field.cabal
+  ../snarkl/snarkl.cabal
 
 package ormolu
   -- The WASM backend does not support TH.
@@ -9,3 +10,5 @@ package ormolu
 package ghc-lib-parser
   -- The WASM backend does not support the threaded RTS.
   flags: -threaded-rts
+
+index-state: 2024-03-20T00:00:53Z

@@ -12,7 +12,9 @@ import Control.Exception qualified as E
 import Data.Aeson qualified as A
 import Data.ByteString.Lazy qualified as BL
 import Data.ByteString.Unsafe qualified as BU
+import Data.Field.Galois (PrimeField)
 import Data.Functor (void)
+import Data.Map qualified as Map
 import Data.Map.Strict qualified as Map
 import Data.Set (Set)
 import Data.Set qualified as Set
@@ -22,7 +24,36 @@ import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import Foreign hiding (void)
 import Foreign.C.Types
 import GHC.Generics (Generic)
+import Snarkl.Field (F_BN128)
+import Snarkl.Language.Prelude
+import Snarkl.Toplevel (Result (..), execute)
+import Text.PrettyPrint.Leijen.Text (Pretty (..))
 import Text.Read (readMaybe)
+
+verifyFactors ::
+  TExp 'TField k ->
+  TExp 'TField k ->
+  TExp 'TField k ->
+  TExp 'TBool k
+verifyFactors a b n = (a * b) `eq` n
+
+compositeTest :: Comp 'TBool k
+compositeTest = do
+  n <- fresh_public_input
+  a <- fresh_private_input "a"
+  b <- fresh_private_input "b"
+  return $ verifyFactors a b n
+
+runCompositeTest ::
+  (PrimeField k) =>
+  -- | public input n
+  k ->
+  -- | private input (a,b)
+  (k, k) ->
+  [k]
+runCompositeTest n (a, b) =
+  let Assgn asg = witness_assgn $ result_witness $ execute [] compositeTest [n] (Map.fromList [("a", a), ("b", b)])
+   in map snd sortBy fst . Map.toList $ assg
 
 main :: IO ()
 main = mempty
