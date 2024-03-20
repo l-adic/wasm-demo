@@ -1,9 +1,12 @@
 tests: True
-index-state: hackage.haskell.org 2023-11-03T18:10:06Z
 
 packages:
+  ./galois-field/galois-field.cabal
+  ./factors/factors.cabal
   ./snarkl/snarkl.cabal
   ./snarkl/tutorial/tutorial.cabal
-  ./galois-field/galois-field.cabal
+
+
+index-state: 2023-10-15T12:29:38Z
 
 

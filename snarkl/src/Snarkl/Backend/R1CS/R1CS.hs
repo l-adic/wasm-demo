@@ -54,6 +54,15 @@ data R1CS a = R1CS
   }
   deriving (Show)
 
+instance (PrimeField k) => A.ToJSON (R1CS k) where
+  toJSON (R1CS {..}) =
+    A.object
+      [ "clauses" A..= r1cs_clauses,
+        "num_vars" A..= r1cs_num_vars,
+        "public_in_vars" A..= r1cs_public_in_vars,
+        "out_vars" A..= r1cs_out_vars
+      ]
+
 instance (PrimeField k) => ToJSONLines (R1CS k) where
   toJSONLines cs = toJSONLines $ WithHeader (r1csHeader cs) (r1cs_clauses cs)
     where
@@ -131,6 +140,15 @@ instance (PrimeField k) => ToJSONLines (Witness k) where
             out_vars = witness_out_vars,
             num_vars = witness_num_vars
           }
+
+instance (PrimeField k) => A.ToJSON (Witness k) where
+  toJSON (Witness {..}) =
+    A.object
+      [ "assgn" A..= witness_assgn,
+        "in_vars" A..= witness_in_vars,
+        "out_vars" A..= witness_out_vars,
+        "num_vars" A..= witness_num_vars
+      ]
 
 instance (PrimeField k) => FromJSONLines (Witness k) where
   fromJSONLines ls = do

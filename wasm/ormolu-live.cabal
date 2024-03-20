@@ -11,13 +11,11 @@ executable ormolu-live
     default-language: GHC2021
     ghc-options:
         -Wall -Wunused-packages -no-hs-main -optl-mexec-model=reactor
-        "-optl-Wl,--export=malloc,--export=mallocPtr,--export=free,--export=formatRaw"
+        "-optl-Wl,--export=malloc,--export=mallocPtr,--export=free,--export=calculateWitnessRaw"
 
     build-depends:
         aeson,
         base,
         bytestring,
-        containers,
-        text,
-        galois-field,
-        snarkl
+        snarkl,
+        factors

@@ -23,6 +23,7 @@ where
 
 import Control.Monad (unless)
 import Control.Monad.Except (MonadError (throwError))
+import qualified Data.Aeson as A
 import Data.Bifunctor (Bifunctor (second))
 import Data.Field.Galois (GaloisField, PrimeField)
 import Data.JSONLines (FromJSONLines (fromJSONLines), NoHeader (..), ToJSONLines (toJSONLines))
@@ -32,7 +33,7 @@ import qualified Data.Set as Set
 import Data.Typeable (Typeable)
 import Snarkl.AST
 import Snarkl.Backend.R1CS
-import Snarkl.Common (Assgn (Assgn), FieldElem (..), Var)
+import Snarkl.Common
 import Snarkl.Compile
 import Snarkl.Constraint (ConstraintSystem (cs_num_vars, cs_out_vars, cs_public_in_vars), SimplifiedConstraintSystem (..), solve)
 import Snarkl.Errors (ErrMsg (ErrMsg), failWith)
@@ -117,6 +118,18 @@ instance (Pretty k) => Pretty (Result k) where
           ["witness" <+> ":" <> line <> indent 4 (pretty witness)]
         ]
 
+-- TODO: PrimeField k => A.ToJSON k?
+instance (PrimeField k) => A.ToJSON (Result k) where
+  toJSON (Result sat vars constraints result r1cs witness) =
+    A.object
+      [ "satisfied" A..= sat,
+        "num_vars" A..= vars,
+        "num_constraints" A..= constraints,
+        "result" A..= FieldElem result,
+        "r1cs" A..= r1cs,
+        "witness" A..= witness
+      ]
+
 --------------------------------------------------
 --
 -- Internal Functions
@@ -146,7 +159,7 @@ execute simpl mf inputs privateInputs =
               (k', var) <- Map.toList privateInputVars,
               k == k'
           ]
-      out_var = case r1cs_out_vars r1cs of 
+      out_var = case r1cs_out_vars r1cs of
         [a] -> a
         _ -> error "one output variable required"
       wit@(Witness {witness_assgn = Assgn m}) = wit_of_cs inputs privateAssignments constraintSystem

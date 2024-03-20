@@ -3,7 +3,7 @@ set -e
 WDIR="$(mktemp -d)"
 trap 'rm -rf -- "$WDIR"' EXIT
 
-wasm32-wasi-cabal build exe:ormolu-live
+wasm32-wasi-cabal build exe:ormolu-live --minimize-conflict-set
 wasm32-wasi-cabal list-bin exe:ormolu-live
 ORMOLU_WASM="$(wasm32-wasi-cabal list-bin exe:ormolu-live)"
 wizer \

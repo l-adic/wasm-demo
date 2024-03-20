@@ -26,7 +26,7 @@ let
     ghcAPIVersion =
       defaultGHC.dev.hsPkgs.ghc-lib-parser.components.library.version;
   };
-  ghcWasmDeps = [ inputs.ghc-wasm-meta.packages.${system}.all_9_6 ];
+  ghcWasmDeps = [ inputs.ghc-wasm-meta.packages.${system}.all_9_8 ];
 in
 {
   package = npmlock2nix.build (common-npmlock2nix // {
@@ -46,6 +46,7 @@ in
       (ps.command { })
       ps-tools.purs-tidy
       ps-tools.purescript
+      ps-tools.spago
     ] ++ ghcWasmDeps;
   });
   ghcWasmShell = pkgs.mkShell { packages = [ ghcWasmDeps ]; };

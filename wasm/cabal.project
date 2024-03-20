@@ -2,6 +2,7 @@ packages:
   .
   ../galois-field/galois-field.cabal
   ../snarkl/snarkl.cabal
+  ../factors/factors.cabal
 
 package ormolu
   -- The WASM backend does not support TH.
@@ -11,4 +12,13 @@ package ghc-lib-parser
   -- The WASM backend does not support the threaded RTS.
   flags: -threaded-rts
 
-index-state: 2024-03-20T00:00:53Z
+repository hackage.haskell.org
+  url: http://hackage.haskell.org/
+
+-- Removes the unnecessary Posix instances to compile on wasm
+source-repository-package
+  type: git
+  location: https://github.com/chessai/semirings.git
+  tag: 2631c542b57abc9bc9e92db273ab8e80ae88048c
+  --sha256: j/zGFd2aeowzJfgCCBmJYmG8mDsfF0irqj/cPOw9ulE=
+
