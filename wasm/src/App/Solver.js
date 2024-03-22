@@ -1,4 +1,4 @@
-import { WASI } from "@bjorn3/browser_wasi_shim/dist/index.js";
+import { WASI } from "@bjorn3/browser_wasi_shim";
 
 
 export async function _initWASM () {

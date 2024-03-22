@@ -3,10 +3,21 @@
   "version": "0.0.0",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.2",
+    "brotli-webpack-plugin": "^1.1.0",
     "buffer": "^5.7.1",
+    "compression-webpack-plugin": "^11.1.0",
+    "css-minimizer-webpack-plugin": "^6.0.0",
+    "git-revision-webpack-plugin": "^5.0.0",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.8.1",
     "npm-check-updates": "^16.6.2",
     "parcel": "^2.8.2",
-    "purs-backend-es": "^1.3.1"
+    "process": "^0.11.10",
+    "purs-backend-es": "^1.3.1",
+    "purs-loader": "github:iostat/purs-loader#9765e4911fe3eaa09cb2b931a0e360f8cafb3367",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
     "@bjorn3/browser_wasi_shim": "^0.2.20",
