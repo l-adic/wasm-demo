@@ -15,6 +15,7 @@ async function run() {
     console.log("Initialized WASI reactor.");
 
     self.onmessage = event => {
+        console.log("Received message in WASI reactor.");
         const input = event.data;
         const inputLen = Buffer.byteLength(input);
         const inputPtr = exports.malloc(inputLen);

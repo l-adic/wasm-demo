@@ -1,105 +1,135 @@
-{-
-Welcome to your new Dhall package-set!
-
-Below are instructions for how to edit this file for most use
-cases, so that you don't need to know Dhall to use it.
-
-## Use Cases
-
-Most will want to do one or both of these options:
-1. Override/Patch a package's dependency
-2. Add a package not already in the default package set
-
-This file will continue to work whether you use one or both options.
-Instructions for each option are explained below.
-
-### Overriding/Patching a package
-
-Purpose:
-- Change a package's dependency to a newer/older release than the
-    default package set's release
-- Use your own modified version of some dependency that may
-    include new API, changed API, removed API by
-    using your custom git repo of the library rather than
-    the package set's repo
-
-Syntax:
-where `entityName` is one of the following:
-- dependencies
-- repo
-- version
--------------------------------
-let upstream = --
-in  upstream
-  with packageName.entityName = "new value"
--------------------------------
-
-Example:
--------------------------------
-let upstream = --
-in  upstream
-  with halogen.version = "master"
-  with halogen.repo = "https://example.com/path/to/git/repo.git"
-
-  with halogen-vdom.version = "v4.0.0"
-  with halogen-vdom.dependencies = [ "extra-dependency" ] # halogen-vdom.dependencies
--------------------------------
-
-### Additions
-
-Purpose:
-- Add packages that aren't already included in the default package set
-
-Syntax:
-where `<version>` is:
-- a tag (i.e. "v4.0.0")
-- a branch (i.e. "master")
-- commit hash (i.e. "701f3e44aafb1a6459281714858fadf2c4c2a977")
--------------------------------
-let upstream = --
-in  upstream
-  with new-package-name =
+let option =
     { dependencies =
-       [ "dependency1"
-       , "dependency2"
-       ]
-    , repo =
-       "https://example.com/path/to/git/repo.git"
-    , version =
-        "<version>"
+      [ "aff"
+      , "argonaut-codecs"
+      , "argonaut-core"
+      , "codec"
+      , "codec-argonaut"
+      , "datetime"
+      , "effect"
+      , "either"
+      , "enums"
+      , "foldable-traversable"
+      , "foreign"
+      , "foreign-object"
+      , "functors"
+      , "identity"
+      , "lists"
+      , "maybe"
+      , "prelude"
+      , "record"
+      , "simple-json"
+      , "spec"
+      , "transformers"
+      , "tuples"
+      , "unsafe-coerce"
+      ]
+    , repo = "https://github.com/jmatsushita/purescript-option"
+    , version = "upgrade-codec"
     }
--------------------------------
 
-Example:
--------------------------------
-let upstream = --
-in  upstream
-  with benchotron =
-      { dependencies =
-          [ "arrays"
-          , "exists"
-          , "profunctor"
-          , "strings"
-          , "quickcheck"
-          , "lcg"
-          , "transformers"
-          , "foldable-traversable"
-          , "exceptions"
-          , "node-fs"
-          , "node-buffer"
-          , "node-readline"
-          , "datetime"
-          , "now"
-          ]
-      , repo =
-          "https://github.com/hdgarrood/purescript-benchotron.git"
-      , version =
-          "v7.0.0"
+let halogen-select =
+    { dependencies = [ "halogen", "halogen-hooks", "halogen-hooks-extra" ]
+    , repo = "https://github.com/f-o-a-m/purescript-halogen-select"
+    , version = "v6.0.0-purs-0.15"
+    }
+
+let ocelot =
+    { dependencies =
+      [ "aff-promise"
+      , "affjax"
+      , "argonaut"
+      , "bigints"
+      , "console"
+      , "debug"
+      , "effect"
+      , "email-validate"
+      , "formatters"
+      , "fuzzy"
+      , "halogen"
+      , "halogen-renderless"
+      , "halogen-select"
+      , "halogen-storybook"
+      , "halogen-svg-elems"
+      , "html-parser-halogen"
+      , "js-timers"
+      , "js-uri"
+      , "numbers"
+      , "option"
+      , "psci-support"
+      , "read"
+      , "remotedata"
+      , "svg-parser"
+      , "svg-parser-halogen"
+      , "test-unit"
+      , "variant"
+      ]
+    , repo = "https://github.com/f-o-a-m/purescript-ocelot"
+    , version = "e4279f0b2de5669d8711f78fe18e34ab99b12617"
+    }
+
+let halogen-renderless =
+    { dependencies = [ "prelude", "control" ]
+    , repo =
+        "https://github.com/purescript-deprecated/purescript-halogen-renderless"
+    , version = "v0.0.4"
+    }
+
+let html-parser-halogen =
+    { dependencies =
+      [ "arrays"
+      , "control"
+      , "dom-indexed"
+      , "foldable-traversable"
+      , "effect"
+      , "halogen"
+      , "maybe"
+      , "prelude"
+      , "psci-support"
+      , "jest"
+      ]
+    , repo = "https://github.com/rnons/purescript-html-parser-halogen.git"
+    , version = "035a51d02ba9f8b70c3ffd9fe31a3f5bed19941c"
+    }
+
+let svg-parser =
+    { dependencies =
+      [ "arrays"
+      , "control"
+      , "either"
+      , "lists"
+      , "prelude"
+      , "string-parsers"
+      , "strings"
+      ]
+    , repo = "https://github.com/rnons/purescript-svg-parser.git"
+    , version = "v3.0.0"
+    }
+
+let svg-parser-halogen =
+    { dependencies =
+      [ "arrays"
+      , "bifunctors"
+      , "either"
+      , "halogen"
+      , "prelude"
+      , "svg-parser"
+      ]
+    , repo = "https://github.com/rnons/purescript-svg-parser-halogen.git"
+    , version = "v2.0.0"
+    }
+
+let additions =
+      { halogen-renderless
+      , html-parser-halogen
+      , svg-parser
+      , svg-parser-halogen
+      , ocelot
+      , option
+      , halogen-select
       }
--------------------------------
--}
+
 let upstream =
       https://github.com/purescript/package-sets/releases/download/psc-0.15.8-20230617/packages.dhall
         sha256:292a92e32db0272db2089f3234140287c9eaf2fc15b6790a3c51f41471050eeb
-
-in  upstream
+in  upstream // additions
