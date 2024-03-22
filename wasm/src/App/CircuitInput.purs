@@ -1,6 +1,6 @@
-module CircuitInput
+module App.CircuitInput
   ( Action(..)
-  , CircuitInput
+  , CircuitInput(..)
   , FormContext
   , Form
   , FormlessAction
@@ -15,7 +15,7 @@ import Data.Either (Either(..), note)
 import Data.Int as Int
 import Data.Maybe (Maybe(..))
 import Effect.Aff (Aff)
-import Field as Field
+import UI.Formless.Field as Field
 import Formless as F
 import Halogen as H
 import Halogen.HTML as HH

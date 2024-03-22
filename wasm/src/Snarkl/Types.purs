@@ -16,6 +16,8 @@ import JS.BigInt as BigInt
 newtype FieldElem = FieldElem BigInt
 
 derive instance Newtype FieldElem _
+derive newtype instance Show FieldElem
+derive newtype instance Eq FieldElem
 
 instance A.EncodeJson FieldElem where
   encodeJson (FieldElem x) = A.encodeJson $ BigInt.toString x

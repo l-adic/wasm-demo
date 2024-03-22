@@ -1,5 +1,5 @@
 --Copy/Pasted from Halogen RealWorld example
-module Field (submitButton, textInput) where
+module UI.Formless.Field (submitButton, textInput) where
 
 import Prelude
 
