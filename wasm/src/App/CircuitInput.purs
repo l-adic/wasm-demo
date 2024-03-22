@@ -10,17 +10,21 @@ module App.CircuitInput
 import Prelude
 
 import Data.Argonaut as A
-import JS.BigInt as BigInt
-import Data.Either (Either(..), note)
+import Data.Either (Either(..), fromLeft, note)
 import Data.Int as Int
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), maybe)
 import Effect.Aff (Aff)
-import UI.Formless.Field as Field
 import Formless as F
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
+import JS.BigInt as BigInt
+import Ocelot.Block.Card as Card
+import Ocelot.Block.FormField as FormField
+import Ocelot.Block.Input as Input
+import Ocelot.Button as Button
+import Ocelot.HTML.Properties (css)
 import Snarkl.Types (FieldElem(..))
 
 newtype CircuitInput = CircuitInput
@@ -85,21 +89,71 @@ component = F.formless { liftAction: Eval } mempty $ H.mkComponent
 
   render :: FormContext -> H.ComponentHTML Action () Aff
   render { formActions, fields, actions } =
-    HH.form
-      [ HE.onSubmit formActions.handleSubmit ]
-      [ HH.fieldset_
-          [ Field.textInput
-              { state: fields.publicInput, action: actions.publicInput }
-              [ HP.placeholder "10"
+    HH.div [ css "flex-2 mx-6 mt-6" ]
+      [ HH.header [ css "w-1/2" ]
+          [ HH.text "Prove that a number is composite" ]
+      , HH.div
+          [ css "flex-1 mx-6 mt-6" ]
+          [ Card.card
+              [ css "flex-1 w-2/3" ]
+              [ FormField.field_
+                  { label: HH.div
+                      [ HP.class_ $ HH.ClassName "dark:text-white" ]
+                      [ HH.text "composite number" ]
+                  , helpText: []
+                  , error:
+                      [ HH.text $
+                          maybe mempty (fromLeft mempty) fields.publicInput.result
+                      ]
+                  , inputId: "number"
+                  }
+                  [ Input.input
+                      [ HP.placeholder "10"
+                      , HP.id "number"
+                      , HP.value $ fields.publicInput.value
+                      , HE.onValueInput actions.publicInput.handleChange
+                      ]
+                  ]
+              , FormField.field_
+                  { label: HH.div
+                      [ HP.class_ $ HH.ClassName "dark:text-white" ]
+                      [ HH.text "first factor" ]
+                  , helpText: []
+                  , error:
+                      [ HH.text $
+                          maybe mempty (fromLeft mempty) fields.factor1.result
+                      ]
+                  , inputId: "factor1"
+                  }
+                  [ Input.input
+                      [ HP.placeholder "5"
+                      , HP.id "factor1"
+                      , HP.value $ fields.factor1.value
+                      , HE.onValueInput actions.factor1.handleChange
+                      ]
+                  ]
+              , FormField.field_
+                  { label: HH.div
+                      [ HP.class_ $ HH.ClassName "dark:text-white" ]
+                      [ HH.text "second factor" ]
+                  , helpText: []
+                  , error:
+                      [ HH.text $
+                          maybe mempty (fromLeft mempty) fields.factor2.result
+                      ]
+                  , inputId: "factor2"
+                  }
+                  [ Input.input
+                      [ HP.placeholder "2"
+                      , HP.id "factor2"
+                      , HP.value $ fields.factor2.value
+                      , HE.onValueInput actions.factor2.handleChange
+                      ]
+                  ]
+              , Button.buttonPrimary
+                  [ HE.onClick \_ -> formActions.submit
+                  ]
+                  [ HH.text "Submit" ]
               ]
-          , Field.textInput
-              { state: fields.factor1, action: actions.factor1 }
-              [ HP.placeholder "5"
-              ]
-          , Field.textInput
-              { state: fields.factor2, action: actions.factor2 }
-              [ HP.placeholder "2"
-              ]
-          , Field.submitButton "Submit"
           ]
       ]
