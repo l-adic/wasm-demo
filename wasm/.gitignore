@@ -1,4 +1,4 @@
-src/ormolu.wasm
+ormolu.wasm
 .purs-repl
 .spago/
 

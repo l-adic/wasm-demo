@@ -4,7 +4,7 @@ import { WASI } from "@bjorn3/browser_wasi_shim";
 export async function _initWASM () {
     const wasi = new WASI([], [], []);
     const wasiImportObj = { wasi_snapshot_preview1: wasi.wasiImport };
-    const wasm = await WebAssembly.instantiateStreaming(fetch(new URL('../../src/ormolu.wasm', import.meta.url)), wasiImportObj);
+    const wasm = await WebAssembly.instantiateStreaming(fetch(new URL('./ormolu.wasm', import.meta.url)), wasiImportObj);
     wasi.inst = wasm.instance;
     return wasm
 }
